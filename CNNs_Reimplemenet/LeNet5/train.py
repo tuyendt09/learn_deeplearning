@@ -23,17 +23,7 @@ train_dataset = torchvision.datasets.MNIST(root = '/media/data/cuonghv14/TuyenDT
                                                   transforms.ToTensor(),
                                                   transforms.Normalize(mean = (0.1307,), std = (0.3081,))]),
                                            download = False)
-
-test_dataset = torchvision.datasets.MNIST(root = '/media/data/cuonghv14/TuyenDT4/learn_deeplearning/datasets',
-                                          train = False,
-                                          transform = transforms.Compose([
-                                                  transforms.Resize((32,32)),
-                                                  transforms.ToTensor(),
-                                                  transforms.Normalize(mean = (0.1325,), std = (0.3105,))]),
-                                          download=False)
-
 train_loader = torch.utils.data.DataLoader(dataset=train_dataset, batch_size = batch_size, shuffle=True)
-test_loader = torch.utils.data.DataLoader(dataset=test_dataset, batch_size=batch_size, shuffle=True)
 
 model = LeNet5(num_class).to(device)
 loss_fn = nn.CrossEntropyLoss()
@@ -57,3 +47,5 @@ for epoch in range(num_epochs):
         if (i+1) % 400 == 0:
             print ('Epoch [{}/{}], Step [{}/{}], Loss: {:.4f}' 
         		           .format(epoch+1, num_epochs, i+1, total_step, loss.item()))
+saved_weights = './trained_weight/weights.pt'
+torch.save(model.state_dict(), saved_weights)
